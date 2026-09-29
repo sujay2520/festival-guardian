@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import CameraRiskScreen from '@/components/CameraRiskScreen';
@@ -14,9 +14,11 @@ import { useAlerts } from '@/hooks/useAlerts';
 import { useMeshRelay } from '@/hooks/useMeshRelay';
 import { AlertFactory } from '@/lib/alert-factory';
 import { requestNotificationPermission } from '@/lib/delivery-bridge';
-import { useEffect } from 'react';
+import { DemoScenario } from '@/types';
 
 export default function HomePage() {
+  const [demoScenario, setDemoScenario] = useState<DemoScenario>('off');
+
   const {
     videoRef,
     isActive: isCameraActive,
@@ -26,13 +28,25 @@ export default function HomePage() {
     toggleFacing,
   } = useCamera();
 
+  const handleStartCamera = useCallback(() => {
+    setDemoScenario('off');
+    startCamera();
+  }, [startCamera]);
+
+  const handleSelectScenario = useCallback((scenario: DemoScenario) => {
+    if (isCameraActive) {
+      stopCamera();
+    }
+    setDemoScenario(scenario);
+  }, [isCameraActive, stopCamera]);
+
   const {
     riskData,
     detections,
     isModelReady,
     isLoading: isModelLoading,
     initModel,
-  } = useRiskScore(videoRef, isCameraActive);
+  } = useRiskScore(videoRef, isCameraActive, demoScenario);
 
   const { getCurrentPosition } = useGeolocation();
   const { alerts, addAlert, clearAlerts, dismissAlert } = useAlerts();
@@ -89,11 +103,13 @@ export default function HomePage() {
           <CameraRiskScreen
             videoRef={videoRef}
             isActive={isCameraActive}
+            demoScenario={demoScenario}
+            onSelectScenario={handleSelectScenario}
             riskData={riskData}
             detections={detections}
             isModelReady={isModelReady}
             isModelLoading={isModelLoading}
-            onStartCamera={startCamera}
+            onStartCamera={handleStartCamera}
             onStopCamera={stopCamera}
             onToggleFacing={toggleFacing}
             onInitModel={initModel}

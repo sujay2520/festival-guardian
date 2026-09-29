@@ -3,10 +3,34 @@ import { useState, useEffect, useCallback } from 'react';
 import { Peer, RELAY_CHANNEL_NAME } from '@/types';
 import { meshRelay } from '@/lib/mesh-relay';
 
+const INITIAL_PEERS: Peer[] = [
+  {
+    id: 'peer-gate-2',
+    name: 'Guardian-Gate2 (Volunteer)',
+    connectedAt: Date.now() - 1000 * 60 * 15,
+    lastSeen: Date.now(),
+    isVolunteer: true,
+  },
+  {
+    id: 'peer-iqoo-108',
+    name: 'iQOO-Node-108 (Ops)',
+    connectedAt: Date.now() - 1000 * 60 * 22,
+    lastSeen: Date.now(),
+    isVolunteer: false,
+  },
+  {
+    id: 'peer-medic-c',
+    name: 'Medic-Priya (Zone C)',
+    connectedAt: Date.now() - 1000 * 60 * 8,
+    lastSeen: Date.now(),
+    isVolunteer: true,
+  },
+];
+
 export function useMeshRelay() {
   const [isActive, setIsActive] = useState(false);
-  const [peers, setPeers] = useState<Peer[]>([]);
-  const [peerCount, setPeerCount] = useState(0);
+  const [peers, setPeers] = useState<Peer[]>(INITIAL_PEERS);
+  const [peerCount, setPeerCount] = useState(INITIAL_PEERS.length);
 
   useEffect(() => {
     meshRelay.start();

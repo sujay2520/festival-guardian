@@ -55,6 +55,8 @@ export interface RelayMessage {
   timestamp: number;
 }
 
+export type DemoScenario = 'off' | 'safe' | 'surge' | 'critical';
+
 // ─── App State ─────────────────────────────────────────────
 export interface AppState {
   riskData: RiskData;
