@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #12121a;
+  --border: #1e1e2e;
+  --accent: #6366f1;
+  --green: #22c55e;
+  --amber: #f59e0b;
+  --red: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg-primary);
+  color: #e2e8f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2e2e4e;
+}
+
+/* Glassmorphism utility */
+.glass {
+  background: rgba(18, 18, 26, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Risk meter arc */
+.risk-arc {
+  transition: stroke-dashoffset 0.5s ease-out, stroke 0.3s ease;
+}
+
+/* Pulse animation for SOS */
+@keyframes sos-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+  }
+}
+
+.sos-pulse {
+  animation: sos-pulse 2s infinite;
+}
+
+/* Camera overlay gradient */
+.camera-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 15, 0.8) 0%,
+    rgba(10, 10, 15, 0) 30%,
+    rgba(10, 10, 15, 0) 60%,
+    rgba(10, 10, 15, 0.9) 100%
+  );
+}
+
+/* Shimmer loading */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.05) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Alert slide-in */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.alert-enter {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* Bounding box overlay */
+.detection-box {
+  position: absolute;
+  border: 2px solid var(--green);
+  border-radius: 4px;
+  pointer-events: none;
+  transition: all 0.15s ease;
+}
+
+.detection-box.warning {
+  border-color: var(--amber);
+}
+
+.detection-box.danger {
+  border-color: var(--red);
+}
