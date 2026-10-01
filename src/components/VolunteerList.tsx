@@ -32,8 +32,8 @@ export default function VolunteerList({
               isRelayActive ? 'bg-guardian-green animate-pulse' : 'bg-guardian-muted'
             }`}
           />
-          <span className="text-xs text-guardian-muted">
-            {isRelayActive ? 'Active' : 'Inactive'}
+          <span className="text-xs font-medium text-guardian-green">
+            {isRelayActive ? 'Active (Simulated Relay)' : 'Inactive'}
           </span>
         </div>
       </div>

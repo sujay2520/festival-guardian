@@ -28,7 +28,7 @@ const INITIAL_PEERS: Peer[] = [
 ];
 
 export function useMeshRelay() {
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(true);
   const [peers, setPeers] = useState<Peer[]>(INITIAL_PEERS);
   const [peerCount, setPeerCount] = useState(INITIAL_PEERS.length);
 

@@ -31,24 +31,24 @@ export default function Header({ isRelayActive, peerCount }: HeaderProps) {
         <div className="flex items-center gap-1.5">
           {isRelayActive ? (
             <motion.div
-              animate={{ opacity: [1, 0.5, 1] }}
+              animate={{ opacity: [1, 0.6, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="flex items-center gap-1"
             >
               <Wifi className="w-4 h-4 text-guardian-green" />
-              <span className="text-xs text-guardian-green">Mesh</span>
+              <span className="text-xs font-medium text-guardian-green">Mesh Active</span>
             </motion.div>
           ) : (
             <div className="flex items-center gap-1">
               <WifiOff className="w-4 h-4 text-guardian-muted" />
-              <span className="text-xs text-guardian-muted">Off</span>
+              <span className="text-xs font-medium text-guardian-muted">Mesh Off</span>
             </div>
           )}
         </div>
 
-        <div className="flex items-center gap-1 bg-guardian-border/50 rounded-full px-2 py-1">
+        <div className="flex items-center gap-1.5 bg-guardian-border/50 rounded-full px-2.5 py-1">
           <Users className="w-3.5 h-3.5 text-guardian-accent" />
-          <span className="text-xs font-medium">{peerCount}</span>
+          <span className="text-xs font-medium">{peerCount} {peerCount === 1 ? 'Peer' : 'Peers'}</span>
         </div>
       </div>
     </header>
