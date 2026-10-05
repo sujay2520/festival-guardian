@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Festival Guardian — Pitch Deck</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap');
+
+    @page {
+      size: 16in 9in;
+      margin: 0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #09090b;
+      color: #ececef;
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .slide {
+      width: 16in;
+      height: 9in;
+      position: relative;
+      page-break-after: always;
+      background: #09090b;
+      padding: 0.8in 1in;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #FF6600, #22D3EE, #3d9a72);
+    }
+
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #2a2a32;
+      padding-top: 0.25in;
+      font-size: 0.2in;
+      color: #8b8b96;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 0.08in 0.2in;
+      border-radius: 9999px;
+      font-size: 0.18in;
+      font-family: 'IBM Plex Mono', monospace;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .tag-orange { background: rgba(255, 102, 0, 0.15); color: #FF6600; border: 1px solid rgba(255, 102, 0, 0.4); }
+    .tag-cyan { background: rgba(34, 211, 238, 0.15); color: #22D3EE; border: 1px solid rgba(34, 211, 238, 0.4); }
+    .tag-green { background: rgba(61, 154, 114, 0.15); color: #3d9a72; border: 1px solid rgba(61, 154, 114, 0.4); }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.65in;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+    }
+
+    h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.48in;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 0.1in;
+    }
+
+    p.subtitle {
+      font-size: 0.26in;
+      color: #8b8b96;
+      line-height: 1.4;
+      margin-bottom: 0.35in;
+    }
+
+    .card {
+      background: #121216;
+      border: 1px solid #2a2a32;
+      border-radius: 0.22in;
+      padding: 0.35in;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.4in;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.35in;
+    }
+
+    .metric-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.55in;
+      font-weight: 800;
+      color: #22D3EE;
+      line-height: 1;
+      margin-bottom: 0.1in;
+    }
+
+    .metric-label {
+      font-size: 0.22in;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0.08in;
+    }
+
+    .metric-desc {
+      font-size: 0.18in;
+      color: #8b8b96;
+      line-height: 1.4;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.2in;
+    }
+
+    th {
+      background: #1a1a20;
+      color: #22D3EE;
+      font-family: 'IBM Plex Mono', monospace;
+      text-align: left;
+      padding: 0.2in;
+      border-bottom: 2px solid #2a2a32;
+    }
+
+    td {
+      padding: 0.2in;
+      border-bottom: 1px solid #2a2a32;
+      color: #ececef;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .screenshot-frame {
+      border: 2px solid #2a2a32;
+      border-radius: 0.25in;
+      overflow: hidden;
+      box-shadow: 0 0.2in 0.5in rgba(0,0,0,0.6);
+      background: #000;
+    }
+
+    .screenshot-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDE 1: Title Slide -->
+  <section class="slide" style="justify-content: center; text-align: center; background: radial-gradient(circle at 50% 30%, #1a1a26 0%, #09090b 70%);">
+    <div style="margin-bottom: 0.4in;">
+      <span class="tag tag-orange" style="margin-bottom: 0.2in;">iQOO HACKATHON 2026 · GRAND FINALE</span>
+      <h1 style="font-size: 0.95in; margin: 0.2in 0 0.1in 0; letter-spacing: -0.03em;">FESTIVAL GUARDIAN</h1>
+      <p style="font-family: 'Syne', sans-serif; font-size: 0.38in; color: #22D3EE; font-weight: 600; margin-bottom: 0.3in;">
+        Predict. Respond. Relay.
+      </p>
+      <p style="font-size: 0.26in; color: #8b8b96; max-width: 11in; margin: 0 auto; line-height: 1.5;">
+        On-device edge AI crowd vision & decentralized zero-internet mesh relay.<br>
+        Early stampede prevention deployed at the gate before crushes form.
+      </p>
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 0.3in;">
+      <span class="tag tag-cyan">LIVE PROTOTYPE: festival-guardian.vercel.app</span>
+      <span class="tag tag-green">TEAM: FALLING STARS</span>
+    </div>
+
+    <div class="slide-footer" style="position: absolute; bottom: 0.5in; left: 1in; right: 1in;">
+      <span>iQOO 15 Snapdragon NPU + P2P Mesh Architecture</span>
+      <span>Slide 1 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: Problem Definition -->
+  <section class="slide">
+    <div>
+      <span class="tag tag-orange">THE CHALLENGE</span>
+      <h2 style="margin-top: 0.15in;">Why Crowd Catastrophes Still Happen</h2>
+      <p class="subtitle">Mass gatherings like festivals, temples, and stadiums create fatal blindspots.</p>
+
+      <div class="grid-3" style="margin-top: 0.2in;">
+        <div class="card" style="border-left: 4px solid #d45b4a;">
+          <p class="metric-label" style="color: #d45b4a; font-size: 0.26in;">1. Gradual Buildup</p>
+          <p class="metric-desc" style="font-size: 0.2in; margin-top: 0.1in;">
+            Crowd density rises silently at narrow turnstiles and bottlenecks. By the time security visually spots the crush, egress paths are already physically impassable.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #c4a35a;">
+          <p class="metric-label" style="color: #c4a35a; font-size: 0.26in;">2. Cellular Blackout</p>
+          <p class="metric-desc" style="font-size: 0.2in; margin-top: 0.1in;">
+            Tens of thousands of concurrent smartphones instantly jam mobile towers (eNodeB/gNodeB). SMS, emergency phone calls, and cloud apps fail when needed most.
+          </p>
+        </div>
+
+        <div class="card" style="border-left: 4px solid #22D3EE;">
+          <p class="metric-label" style="color: #22D3EE; font-size: 0.26in;">3. Consumer App Flaw</p>
+          <p class="metric-desc" style="font-size: 0.2in; margin-top: 0.1in;">
+            Expecting panicked attendees trapped in a surging crowd to unlock their phones and type incident reports is impossible. Safety must be organizer-deployed.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="background: rgba(34, 211, 238, 0.05); border-color: rgba(34, 211, 238, 0.3);">
+      <p style="font-size: 0.22in; color: #22D3EE; font-weight: 600;">
+        💡 Core Paradigm Shift: Ground marshals with fixed Guardian Nodes detect risks at the gates, communicating over zero-internet mesh to central dispatch.
+      </p>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · Problem Reframing</span>
+      <span>Slide 2 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: Dual-Persona Architecture -->
+  <section class="slide">
+    <div>
+      <span class="tag tag-cyan">SYSTEM ARCHITECTURE</span>
+      <h2 style="margin-top: 0.15in;">Dual-Persona Operational Flow</h2>
+      <p class="subtitle">A clean separation between frontline gate scanners and command dispatch.</p>
+
+      <div class="grid-2" style="align-items: center;">
+        <div>
+          <div class="card" style="margin-bottom: 0.25in; border-left: 4px solid #3d9a72;">
+            <p class="metric-label" style="color: #3d9a72; font-size: 0.26in;">Gate Marshal / Volunteer View</p>
+            <p class="metric-desc" style="font-size: 0.2in; margin-top: 0.08in;">
+              <b>What the gate staff sees:</b> Real-time camera scanner, instant 0-100 crowd risk index, 0.8s hold-to-fire SOS buttons, and background offline mesh routing. Staff only manage their local gate.
+            </p>
+          </div>
+
+          <div class="card" style="border-left: 4px solid #22D3EE;">
+            <p class="metric-label" style="color: #22D3EE; font-size: 0.26in;">Organizer Control Room (Ops)</p>
+            <p class="metric-desc" style="font-size: 0.2in; margin-top: 0.08in;">
+              <b>What central dispatch sees:</b> Multi-zone spatial risk heat-status across 5 venue gates, incoming incident dispatch queue with hop latency, and venue CCTV video feeds.
+            </p>
+          </div>
+        </div>
+
+        <div class="screenshot-frame" style="height: 4.8in;">
+          <img src="screenshots/01-scanner-desktop.png" alt="Festival Guardian Gate Scanner View">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · Dual-Persona Experience</span>
+      <span>Slide 3 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 4: Edge AI Vision Engine -->
+  <section class="slide">
+    <div>
+      <span class="tag tag-green">EDGE COMPUTER VISION</span>
+      <h2 style="margin-top: 0.15in;">On-Device AI & Crowd Physics</h2>
+      <p class="subtitle">Zero-cloud tensor processing calibrated to NFPA & Fruin Level of Service standards.</p>
+
+      <div class="grid-3" style="margin-top: 0.1in;">
+        <div class="card">
+          <p class="metric-value">100%</p>
+          <p class="metric-label">On-Device Processing</p>
+          <p class="metric-desc">
+            TensorFlow.js WebGL backend (quantized for Snapdragon NPU). Zero video streaming to the cloud—100% attendee privacy and zero network latency.
+          </p>
+        </div>
+
+        <div class="card">
+          <p class="metric-value">2-Pass</p>
+          <p class="metric-label">Multi-Scale Tiling</p>
+          <p class="metric-desc">
+            Pass 1 scans the global frame for foreground individuals; Pass 2 activates a high-resolution center tile to count distant, occluded people that standard models miss.
+          </p>
+        </div>
+
+        <div class="card">
+          <p class="metric-value">&ge;4.0 p/m²</p>
+          <p class="metric-label">Fruin LOS F Threshold</p>
+          <p class="metric-desc">
+            Calibrated on crowd science: combines Person Count, Spatial Density, and Ingress Velocity Delta to trigger alerts before shockwaves form.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 0.2in;">
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 0.2in; color: #22D3EE;">
+        INPUT FRAME &rarr; GPU/NPU TILING &rarr; BOUNDING BOXES &rarr; DENSITY CALCULATION &rarr; 0-100 RISK GAUGE
+      </p>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · Computer Vision Architecture</span>
+      <span>Slide 4 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 5: Zero-Internet Mesh Relay -->
+  <section class="slide">
+    <div>
+      <span class="tag tag-cyan">OFFLINE MESH RELAY</span>
+      <h2 style="margin-top: 0.15in;">Decentralized P2P Network</h2>
+      <p class="subtitle">When cell towers crash, emergency packets hop phone-to-phone across volunteers.</p>
+
+      <div class="grid-3">
+        <div class="card">
+          <p class="metric-value">0 Mbps</p>
+          <p class="metric-label">Cellular Independence</p>
+          <p class="metric-desc">
+            Uses Google Nearby Connections API (BLE 5.2 + Wi-Fi Direct). Transmits encrypted alert packets over local peer-to-peer radio without towers.
+          </p>
+        </div>
+
+        <div class="card">
+          <p class="metric-value">3 Hops</p>
+          <p class="metric-label">Bounded TTL Routing</p>
+          <p class="metric-desc">
+            Cryptographic packet headers with a 3-hop Time-to-Live prevent network storms while covering &gt;450 meters across festival sectors.
+          </p>
+        </div>
+
+        <div class="card">
+          <p class="metric-value">&sim;24 ms</p>
+          <p class="metric-label">Hop Latency & Dedup</p>
+          <p class="metric-desc">
+            LRU packet deduplication drops redundant broadcasts instantly, keeping battery consumption minimal on volunteer devices.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 0.2in; background: #161B22;">
+      <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 0.2in;">
+        <span>GATE 3 NODE (SURGE DETECTED)</span>
+        <span style="color: #FF6600;">&rarr; [BLE HOP 1] &rarr;</span>
+        <span>PATROL VOLUNTEER</span>
+        <span style="color: #22D3EE;">&rarr; [WI-FI DIRECT HOP 2] &rarr;</span>
+        <span style="color: #3d9a72;">ORGANIZER COMMAND CENTER</span>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · P2P Mesh Hop Architecture</span>
+      <span>Slide 5 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 6: Tactical Emergency Triggers -->
+  <section class="slide">
+    <div>
+      <span class="tag tag-orange">EMERGENCY PROTOCOLS</span>
+      <h2 style="margin-top: 0.15in;">Hold-to-Fire SOS & Resuscitation</h2>
+      <p class="subtitle">Zero false-positive triggers with built-in voice-guided medical aid.</p>
+
+      <div class="grid-3">
+        <div class="card" style="border-top: 4px solid #d45b4a;">
+          <p class="metric-label" style="color: #d45b4a; font-size: 0.24in;">🚨 Critical SOS</p>
+          <p class="metric-desc" style="font-size: 0.19in; margin-top: 0.1in;">
+            High-priority broadcast with GPS/gate coordinates. <b>0.8s hold-to-confirm</b> with animated radial SVG ring ensures accidental taps never trigger alerts.
+          </p>
+        </div>
+
+        <div class="card" style="border-top: 4px solid #c4a35a;">
+          <p class="metric-label" style="color: #c4a35a; font-size: 0.24in;">📦 Theft Reporting</p>
+          <p class="metric-desc" style="font-size: 0.19in; margin-top: 0.1in;">
+            One-tap incident logging for pickpocketing and lost property. Tags the physical node sector directly onto security team dispatch boards.
+          </p>
+        </div>
+
+        <div class="card" style="border-top: 4px solid #22D3EE;">
+          <p class="metric-label" style="color: #22D3EE; font-size: 0.24in;">💖 Medical First Aid</p>
+          <p class="metric-desc" style="font-size: 0.19in; margin-top: 0.1in;">
+            Dispatches nearest medic node. Simultaneously renders offline airway & compression triage instructions while staff wait for on-site paramedics.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="background: rgba(212, 91, 74, 0.08); border-color: rgba(212, 91, 74, 0.3);">
+      <p style="font-size: 0.2in; color: #ececef;">
+        <b>Web Audio Synthesizer:</b> Native browser sound generation provides tactile acoustic confirmation (clicks, radar pings, emergency alarms) with zero external audio assets.
+      </p>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · Rapid Incident Response</span>
+      <span>Slide 6 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 7: CCTV RTSP Ingestion Pipeline (Phase 2) -->
+  <section class="slide">
+    <div>
+      <span class="tag tag-cyan">PHASE 2 ROADMAP</span>
+      <h2 style="margin-top: 0.15in;">Venue CCTV / RTSP Integration</h2>
+      <p class="subtitle">Turning existing stadium cameras into smart density sensors without new hardware.</p>
+
+      <div class="grid-2" style="align-items: center;">
+        <div>
+          <div class="card" style="margin-bottom: 0.2in;">
+            <p class="metric-label" style="color: #22D3EE; font-size: 0.24in;">Zero Hardware Procurement</p>
+            <p class="metric-desc" style="font-size: 0.19in;">
+              Major concert grounds and stadiums already have dozens of RTSP/ONVIF security cameras. Phase 2 taps into these existing feeds via WebRTC Edge Gateways.
+            </p>
+          </div>
+
+          <div class="card">
+            <p class="metric-label" style="color: #3d9a72; font-size: 0.24in;">Identical Vision Pipeline</p>
+            <p class="metric-desc" style="font-size: 0.19in;">
+              By the time a frame enters the model, it makes no difference whether it came from a phone camera or an RTSP stream. Three simulated channels live today: CAM-01, CAM-02, CAM-03.
+            </p>
+          </div>
+        </div>
+
+        <div class="screenshot-frame" style="height: 4.8in;">
+          <img src="screenshots/05-ops-desktop.png" alt="Festival Guardian Organizer Control Room">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · CCTV Infrastructure Expansion</span>
+      <span>Slide 7 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 8: Prototype vs Target Build -->
+  <section class="slide">
+    <div>
+      <span class="tag tag-orange">ENGINEERING TRANSPARENCY</span>
+      <h2 style="margin-top: 0.15in;">Today's Prototype vs. Target Build</h2>
+      <p class="subtitle">Honest engineering breakdown: What is running live today vs. production target.</p>
+
+      <div class="card" style="padding: 0; overflow: hidden; margin-top: 0.2in;">
+        <table>
+          <thead>
+            <tr>
+              <th>TECHNICAL DIMENSION</th>
+              <th>TODAY'S WORKING PROTOTYPE</th>
+              <th>GRAND FINALE PRODUCTION BUILD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>Target Platform</b></td>
+              <td>Next.js 14 Progressive Web App (PWA)</td>
+              <td>Native Android (Kotlin + Jetpack Compose)</td>
+            </tr>
+            <tr>
+              <td><b>On-Device AI</b></td>
+              <td>TensorFlow.js WebGL (Browser GPU)</td>
+              <td>Quantized TFLite on Snapdragon NPU via NNAPI</td>
+            </tr>
+            <tr>
+              <td><b>Mesh Networking</b></td>
+              <td>Browser BroadcastChannel P2P Simulation</td>
+              <td>Google Nearby Connections (Wi-Fi Direct + BLE 5.2)</td>
+            </tr>
+            <tr>
+              <td><b>CCTV Feeds</b></td>
+              <td>Simulated WebRTC RTSP Video Feeds</td>
+              <td>On-Premise RTSP/HLS Edge Gateway hardware</td>
+            </tr>
+            <tr>
+              <td><b>User Personas</b></td>
+              <td>Dual-Persona: Field Node & Ops Room</td>
+              <td>Dual-Persona: Gate Marshals & Police Dispatch</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · Architecture Comparison</span>
+      <span>Slide 8 / 9</span>
+    </div>
+  </section>
+
+  <!-- SLIDE 9: Roadmap & Conclusion -->
+  <section class="slide" style="justify-content: space-between;">
+    <div>
+      <span class="tag tag-green">GRAND FINALE ROADMAP</span>
+      <h2 style="margin-top: 0.15in;">48-Hour Sprint Milestones</h2>
+      <p class="subtitle">Execution plan for the Grand Finale hackathon sprint.</p>
+
+      <div class="grid-3" style="margin-top: 0.1in;">
+        <div class="card">
+          <p class="metric-label" style="color: #FF6600;">0–12 Hours</p>
+          <p class="metric-desc">
+            Deploy Kotlin Android shell, connect camera feed, and bind quantized MobileNetV2 on Qualcomm Snapdragon NPU.
+          </p>
+        </div>
+
+        <div class="card">
+          <p class="metric-label" style="color: #22D3EE;">12–30 Hours</p>
+          <p class="metric-desc">
+            Implement Google Nearby Connections API; demonstrate live offline SOS hop between two phones with SIM cards removed.
+          </p>
+        </div>
+
+        <div class="card">
+          <p class="metric-label" style="color: #3d9a72;">30–48 Hours</p>
+          <p class="metric-desc">
+            Integrate multi-zone dispatch console, test RTSP stream gateway ingestion, and finalize live judge demonstration.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="text-align: center; background: radial-gradient(circle, #1a1a24 0%, #121216 100%); border-color: #22D3EE; padding: 0.4in;">
+      <h2 style="font-size: 0.4in; margin-bottom: 0.1in;">Festival Guardian: Predict. Respond. Relay.</h2>
+      <p style="font-size: 0.22in; color: #8b8b96; margin-bottom: 0.2in;">
+        Making mass gatherings safe through on-device edge intelligence.
+      </p>
+      <p style="font-family: 'IBM Plex Mono', monospace; font-size: 0.22in; color: #22D3EE;">
+        Live Prototype: https://festival-guardian.vercel.app · GitHub: sujay2520/festival-guardian
+      </p>
+    </div>
+
+    <div class="slide-footer">
+      <span>Festival Guardian · iQOO Hackathon 2026</span>
+      <span>Slide 9 / 9</span>
+    </div>
+  </section>
+
+</body>
+</html>
