@@ -257,10 +257,12 @@ npm run dev
 
 ---
 
-## 👥 Team Falling Stars
+## 👥 Team Falling Stars & Contributors
 
-* **Poornachandra P M**
-* **Dushyanth M**
-* **M Sujay**
+| Name | Role / Focus | GitHub Profile |
+| :--- | :--- | :--- |
+| **M Sujay** | Edge AI Vision, System Architecture & UI | [@sujay2520](https://github.com/sujay2520) |
+| **Poornachandra P M** | Decentralized Mesh Relay & Data Pipelines | [@humanoid-co](https://github.com/humanoid-co) |
+| **Dushyanth M** | Computer Vision Scorer & Android Telemetry | [@Dushyanthm07](https://github.com/Dushyanthm07) |
 
-*Built for the iQOO Hackathon 2026.*
+*Built with passion for the iQOO Hackathon 2026 Grand Finale.*
