@@ -1,17 +1,16 @@
-﻿# ðŸ›¡ï¸ Festival Guardian
+# 🛡️ Festival Guardian
 > **Predict. Respond. Relay.**  
 > *An organizer-deployed edge intelligence and decentralized mesh network for crowd stampede prevention, incident dispatch, and offline safety telemetry.*
 
-[![Live Prototype](https://img.shields.io/badge/Live_Prototype-festival--guardian--2.vercel.app-FF6600?style=for-the-badge&logo=vercel)](https://festival-guardian.vercel.app)
-[![Next.js](https://img.shields.io/badge/Framework-Next.js_14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
-[![TensorFlow.js](https://img.shields.io/badge/AI_Vision-TensorFlow.js_WebGL-orange?style=for-the-badge&logo=tensorflow)](https://www.tensorflow.org/js)
+[![Live Prototype](https://img.shields.io/badge/Production_App-festival--guardian.vercel.app-FF6600?style=for-the-badge&logo=vercel)](https://festival-guardian.vercel.app)
+[![Main Repo](https://img.shields.io/badge/Main_Repository-sujay2520%2Ffestival--guardian-cyan?style=for-the-badge&logo=github)](https://github.com/sujay2520/festival-guardian)
 [![Team](https://img.shields.io/badge/Team-Falling_Stars-amber?style=for-the-badge)](https://iqoo.reskilll.com/dashboard/iqoo-finale)
 
 ---
 
-## ðŸ“Œ Problem Statement
+## 📌 Problem Statement
 
-Mass gatheringsâ€”including major religious festivals (e.g., Kumbh Mela, Puri Rath Yatra, Tirupati), stadium concerts, and transit corridorsâ€”are uniquely vulnerable to crowd crushes and stampedes. Dangerous crowd turbulence develops gradually at narrow chokepoints, gate barricades, and corridor bottlenecks. By the time visual panic is apparent to humans, crowd compression is often fatal.
+Mass gatherings—including major religious festivals (e.g., Kumbh Mela, Puri Rath Yatra, Tirupati), stadium concerts, and transit corridors—are uniquely vulnerable to crowd crushes and stampedes. Dangerous crowd turbulence develops gradually at narrow chokepoints, gate barricades, and corridor bottlenecks. By the time visual panic is apparent to humans, crowd compression is often fatal.
 
 Exacerbating this, ultra-dense congregations inevitably cause local cellular base stations (eNodeB/gNodeB) to saturate. Mobile towers face severe uplink/downlink congestion, causing standard cellular voice calls, SMS, and internet-based emergency dispatch apps to fail entirely at the moment of crisis.
 
@@ -21,7 +20,7 @@ Most conventional crowd safety apps operate on an unrealistic premise: expecting
 
 ---
 
-## ðŸ‘¥ Dual-Persona Architecture
+## 👥 Dual-Persona Architecture
 
 Festival Guardian is engineered around two distinct operational personas designed to bridge ground-level situational awareness with tactical command dispatch:
 
@@ -56,7 +55,7 @@ flowchart TD
 ### 1. Field Guardian Node (Volunteer / Staff at Gates)
 * **Target Users**: On-ground event volunteers, gate marshals, corridor security personnel stationed at ingress/egress points, turnstiles, and narrow barricaded walkways.
 * **On-Device Vision AI**: Executes real-time object detection directly on the device GPU (TensorFlow.js WebGL pipeline) at ~3 FPS with zero cloud round-trips. Privacy is preserved as video frames never leave the device.
-* **Local Density & Flow Scoring**: Computes continuous crowd density ($\text{people}/\text{m}^2$) and flow rate differential ($\Delta\text{flow}$), mapping telemetry into a 0â€“100 calibrated risk index.
+* **Local Density & Flow Scoring**: Computes continuous crowd density ($\text{people}/\text{m}^2$) and flow rate differential ($\Delta\text{flow}$), mapping telemetry into a 0–100 calibrated risk index.
 * **Fail-Safe Tactile Incident Actions**:
   * **Emergency SOS**: Requires a deliberate 0.8-second hold-to-activate trigger, preventing accidental triggers in packed or jostling environments.
   * **Theft Incident Reporting**: Instant one-tap logging for localized criminal activity.
@@ -65,13 +64,13 @@ flowchart TD
 
 ### 2. Organizer Control Room (Command Center / Dispatch)
 * **Target Users**: Event operations directors, police watch commanders, medical triage supervisors, and stadium security officers.
-* **Aggregate Multi-Zone Density Map**: Synthesizes real-time telemetry from all distributed Guardian Nodes into an intuitive bird's-eye map. Zones are dynamically color-coded by risk status (ðŸŸ¢ Safe, ðŸŸ¡ Caution, ðŸŸ  Warning, ðŸ”´ Danger/Critical).
+* **Aggregate Multi-Zone Density Map**: Synthesizes real-time telemetry from all distributed Guardian Nodes into an intuitive bird's-eye map. Zones are dynamically color-coded by risk status (🟢 Safe, 🟡 Caution, 🟠 Warning, 🔴 Danger/Critical).
 * **Incident Dispatch Queue with Hop Telemetry**: Centralized triage table recording every inbound alert packet. Tracks originating node identifier, precise GPS coordinates, transit latency, and hop count history (`ttlHops` remaining vs. initial), allowing dispatchers to trace alert pathways across dark zones.
 * **Live Venue CCTV / RTSP Camera Ingestion**: Integrates stationary stadium and perimeter cameras into the identical vision pipeline, enabling operators to monitor blind spots without requiring dedicated personnel at every post.
 
 ---
 
-## ðŸ“¹ CCTV / RTSP Ingestion Architecture (Phase 2 Roadmap)
+## 📹 CCTV / RTSP Ingestion Architecture (Phase 2 Roadmap)
 
 Large-scale venues (cricket stadiums, festival arenas, temple complexes) rarely require purchasing hundreds of dedicated mobile phones for monitoring. Instead, these facilities are already wired with dozens of high-mounted, pan-tilt-zoom (PTZ) IP surveillance cameras.
 
@@ -112,7 +111,7 @@ flowchart LR
    * Stadium cameras output standard RTSP (`rtsp://user:pass@192.168.1.x:554/live`) or ONVIF Profile S streams encoded in H.264/H.265.
    * A lightweight local edge gateway (such as a local Docker container running `go2rtc` or a GStreamer pipeline on the venue NVR) ingests multiple RTSP feeds without cloud dependencies.
 2. **Sub-200ms WebRTC Delivery**:
-   * Traditional streaming formats like HLS or RTMP introduce 3â€“15 seconds of buffering latencyâ€”unacceptable for stampede detection where 10 seconds can dictate life or death.
+   * Traditional streaming formats like HLS or RTMP introduce 3–15 seconds of buffering latency—unacceptable for stampede detection where 10 seconds can dictate life or death.
    * The gateway repackages the video into WebRTC (RTP/SRTP) peer streams, streaming low-latency video feeds directly to the Control Room dashboard or distributed Guardian nodes over local Wi-Fi or LAN backhaul.
 3. **Identical Vision AI Pipeline**:
    * Ingested video feeds bind directly to the existing HTML5 `<video>` elements and GPU canvas buffers.
@@ -123,7 +122,7 @@ flowchart LR
 
 ---
 
-## ðŸ§® Mathematical Foundations & Crowd Risk Calibration
+## 🧮 Mathematical Foundations & Crowd Risk Calibration
 
 Festival Guardian replaces arbitrary threshold guesses with models calibrated to **NFPA 101 Life Safety Code** and **Dr. John Fruin's Level of Service (LOS)** pedestrian dynamics:
 
@@ -131,9 +130,9 @@ $$\text{Density} = \frac{\bar{N}_{\text{window}}}{\text{Monitored Area } (m^2)}$
 
 ```
 Fruin Level of Service (LOS) Scale:
-â€¢ LOS Aâ€“C (< 1.08 p/mÂ²): Free pedestrian flow, normal walking speeds.
-â€¢ LOS Dâ€“E (1.08 - 2.17 p/mÂ²): Constrained movement, severe bypass difficulty.
-â€¢ LOS F   (> 3.8 - 4.0 p/mÂ²): Physical contact, shockwave propagation, stampede risk.
+• LOS A–C (< 1.08 p/m²): Free pedestrian flow, normal walking speeds.
+• LOS D–E (1.08 - 2.17 p/m²): Constrained movement, severe bypass difficulty.
+• LOS F   (> 3.8 - 4.0 p/m²): Physical contact, shockwave propagation, stampede risk.
 ```
 
 ### Calibration Equation
@@ -155,7 +154,7 @@ Where:
 
 ---
 
-## ðŸ”¬ Architecture: Today's Prototype vs. Grand Finale Target Build
+## 🔬 Architecture: Today's Prototype vs. Grand Finale Target Build
 
 To maintain engineering honesty and transparency during hackathon evaluation:
 
@@ -171,30 +170,30 @@ To maintain engineering honesty and transparency during hackathon evaluation:
 
 ---
 
-## ðŸŽ® Live Demo & Walkthrough
+## 🎮 Live Demo & Walkthrough
 
 Visit **[festival-guardian.vercel.app](https://festival-guardian.vercel.app)** on your smartphone or desktop:
 
 ```
-â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
-â”‚  ðŸ›¡ï¸ Festival Guardian          [RELAY ACTIVE: 3 PEERS]    â”‚
-â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
-â”‚  [ SCANNER ]   [ DISPATCH (2) ]   [ RELAY ]   [ SOS TRIGGER ]â”‚
-â”‚                                                             â”‚
-â”‚  HUD: SCORE: 92/100  CRITICAL RISK    EST. DENSITY: 4.8 p/mÂ²â”‚
-â”‚  LIVE BOUNDING BOXES: [Person 1] [Person 2] ...             â”‚
-â”‚                                                             â”‚
-â”‚  [ PRESET: SAFE ]  [ PRESET: SURGE ]  [ PRESET: CRITICAL ]  â”‚
-â”‚  [ CAMERA ON ]     [ EVENT VIDEO ]    [ RTSP SIMULATION ]   â”‚
-â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+┌─────────────────────────────────────────────────────────────┐
+│  🛡️ FESTIVAL GUARDIAN 2          [RELAY ACTIVE: 3 PEERS]    │
+├─────────────────────────────────────────────────────────────┤
+│  [ SCANNER ]   [ DISPATCH (2) ]   [ RELAY ]   [ SOS TRIGGER ]│
+│                                                             │
+│  HUD: SCORE: 92/100  CRITICAL RISK    EST. DENSITY: 4.8 p/m²│
+│  LIVE BOUNDING BOXES: [Person 1] [Person 2] ...             │
+│                                                             │
+│  [ PRESET: SAFE ]  [ PRESET: SURGE ]  [ PRESET: CRITICAL ]  │
+│  [ CAMERA ON ]     [ EVENT VIDEO ]    [ RTSP SIMULATION ]   │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 1. **Live Camera AI**: Tap **"Camera"** to run live on-device person detection directly on your mobile browser.
 2. **Real Event Video**: Tap **"Event"** to evaluate the vision model against pre-recorded festival crowd footage.
 3. **Scenario Presets**: Instantly simulate crowd dynamics using presets:
-   * ðŸŸ¢ **Safe (18)**: Dispersed pedestrian flow.
-   * ðŸŸ¡ **Surge (65)**: Gate bottleneck triggering caution advisory.
-   * ðŸ”´ **Critical (92)**: High-density stampede risk automatically dispatching alerts to the mesh.
+   * 🟢 **Safe (18)**: Dispersed pedestrian flow.
+   * 🟡 **Surge (65)**: Gate bottleneck triggering caution advisory.
+   * 🔴 **Critical (92)**: High-density stampede risk automatically dispatching alerts to the mesh.
 4. **Multi-Tab Mesh Relay Test**:
    * Open two browser windows at `https://festival-guardian.vercel.app`.
    * On Window 1, navigate to **SOS** and hold the button for 0.8 seconds.
@@ -202,45 +201,45 @@ Visit **[festival-guardian.vercel.app](https://festival-guardian.vercel.app)** o
 
 ---
 
-## ðŸ› ï¸ Project Structure
+## 🛠️ Project Structure
 
 ```
 Festival Guardian/
-â”œâ”€â”€ src/
-â”‚   â”œâ”€â”€ app/
-â”‚   â”‚   â”œâ”€â”€ page.tsx               # Tab orchestrator & responsive mobile/desktop shell
-â”‚   â”‚   â”œâ”€â”€ layout.tsx             # Root layout, PWA tags & dark mode viewport
-â”‚   â”‚   â””â”€â”€ globals.css            # Tactical radar effects, glassmorphic styling
-â”‚   â”œâ”€â”€ components/
-â”‚   â”‚   â”œâ”€â”€ CameraRiskScreen.tsx   # Live video/CCTV canvas with bounding box renderer
-â”‚   â”‚   â”œâ”€â”€ RiskMeter.tsx          # Dynamic SVG gauge & Fruin LOS telemetry
-â”‚   â”‚   â”œâ”€â”€ SosButton.tsx          # 0.8s tactile hold emergency trigger
-â”‚   â”‚   â”œâ”€â”€ AlertPanel.tsx         # Organizer dispatch queue with hop count & status
-â”‚   â”‚   â”œâ”€â”€ VolunteerList.tsx      # Mesh peer discovery & presence status
-â”‚   â”‚   â”œâ”€â”€ Header.tsx             # System status, relay pulse & peer count
-â”‚   â”‚   â””â”€â”€ OnboardingModal.tsx    # Guardian Node operational guide & walkthrough
-â”‚   â”œâ”€â”€ hooks/
-â”‚   â”‚   â”œâ”€â”€ useCamera.ts           # MediaDevices & sample video stream controller
-â”‚   â”‚   â”œâ”€â”€ useRiskScore.ts        # Detection loop & density calculation engine
-â”‚   â”‚   â”œâ”€â”€ useAlerts.ts           # Alert lifecycle, deduplication & delivery
-â”‚   â”‚   â”œâ”€â”€ useMeshRelay.ts        # P2P channel lifecycle & peer tracking
-â”‚   â”‚   â””â”€â”€ useGeolocation.ts      # Edge GPS coordinate telemetry
-â”‚   â”œâ”€â”€ lib/
-â”‚   â”‚   â”œâ”€â”€ person-detector.ts     # TensorFlow.js COCO-SSD inference wrapper
-â”‚   â”‚   â”œâ”€â”€ risk-scorer.ts         # NFPA 101 & Fruin LOS F density scoring algorithm
-â”‚   â”‚   â”œâ”€â”€ alert-factory.ts       # Typed immutable Alert packet factory
-â”‚   â”‚   â”œâ”€â”€ mesh-relay.ts          # Relay protocol, TTL hop decrement & cache
-â”‚   â”‚   â””â”€â”€ delivery-bridge.ts     # Web Audio synth, haptics & native notifications
-â”‚   â””â”€â”€ types/
-â”‚       â””â”€â”€ index.ts               # Core domain interfaces, thresholds & packet types
-â”œâ”€â”€ screenshots/                   # Pitch deck high-resolution captures
-â”œâ”€â”€ package.json
-â””â”€â”€ vercel.json
+├── src/
+│   ├── app/
+│   │   ├── page.tsx               # Tab orchestrator & responsive mobile/desktop shell
+│   │   ├── layout.tsx             # Root layout, PWA tags & dark mode viewport
+│   │   └── globals.css            # Tactical radar effects, glassmorphic styling
+│   ├── components/
+│   │   ├── CameraRiskScreen.tsx   # Live video/CCTV canvas with bounding box renderer
+│   │   ├── RiskMeter.tsx          # Dynamic SVG gauge & Fruin LOS telemetry
+│   │   ├── SosButton.tsx          # 0.8s tactile hold emergency trigger
+│   │   ├── AlertPanel.tsx         # Organizer dispatch queue with hop count & status
+│   │   ├── VolunteerList.tsx      # Mesh peer discovery & presence status
+│   │   ├── Header.tsx             # System status, relay pulse & peer count
+│   │   └── OnboardingModal.tsx    # Guardian Node operational guide & walkthrough
+│   ├── hooks/
+│   │   ├── useCamera.ts           # MediaDevices & sample video stream controller
+│   │   ├── useRiskScore.ts        # Detection loop & density calculation engine
+│   │   ├── useAlerts.ts           # Alert lifecycle, deduplication & delivery
+│   │   ├── useMeshRelay.ts        # P2P channel lifecycle & peer tracking
+│   │   └── useGeolocation.ts      # Edge GPS coordinate telemetry
+│   ├── lib/
+│   │   ├── person-detector.ts     # TensorFlow.js COCO-SSD inference wrapper
+│   │   ├── risk-scorer.ts         # NFPA 101 & Fruin LOS F density scoring algorithm
+│   │   ├── alert-factory.ts       # Typed immutable Alert packet factory
+│   │   ├── mesh-relay.ts          # Relay protocol, TTL hop decrement & cache
+│   │   └── delivery-bridge.ts     # Web Audio synth, haptics & native notifications
+│   └── types/
+│       └── index.ts               # Core domain interfaces, thresholds & packet types
+├── screenshots/                   # Pitch deck high-resolution captures
+├── package.json
+└── vercel.json
 ```
 
 ---
 
-## ðŸ’» Local Development
+## 💻 Local Development
 
 ```bash
 # Clone the repository
@@ -258,11 +257,10 @@ npm run dev
 
 ---
 
-## ðŸ‘¥ Team Falling Stars
+## 👥 Team Falling Stars
 
 * **Poornachandra P M**
 * **Dushyanth M**
 * **M Sujay**
 
 *Built for the iQOO Hackathon 2026.*
-
