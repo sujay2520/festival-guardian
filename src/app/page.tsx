@@ -246,12 +246,14 @@ export default function HomePage() {
           )}
 
           {activeTab === 'sos' && (
-            <SosButton
-              onSos={handleSos}
-              onTheft={handleTheft}
-              onVolunteerRequest={handleVolunteerRequest}
-              onFirstAid={handleFirstAid}
-            />
+            <div className="flex min-h-[65vh] flex-col items-center justify-center">
+              <SosButton
+                onSos={handleSos}
+                onTheft={handleTheft}
+                onVolunteerRequest={handleVolunteerRequest}
+                onFirstAid={handleFirstAid}
+              />
+            </div>
           )}
 
           {activeTab === 'ops' && (
