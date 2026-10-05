@@ -1,11 +1,22 @@
-# 🛡️ Festival Guardian
+# 🚧 [ARCHIVED] Festival Guardian 2
+
+> [!WARNING]
+> **This repository is archived and no longer maintained.**  
+> All development, features (including the Dual-Persona architecture, CCTV ingestion pipeline, Grok-inspired UI, tactile audio, and Grand Finale pitch decks) have been consolidated into the official production repository:
+> 👉 **[https://github.com/sujay2520/festival-guardian](https://github.com/sujay2520/festival-guardian)**  
+> 
+> **Official Live Production Application:**  
+> 🌐 **[https://festival-guardian.vercel.app](https://festival-guardian.vercel.app)**  
+> *(The legacy URL festival-guardian-2.vercel.app is discarded/deprecated).*
+
+---
+
+# 🛡️ Festival Guardian 2 (Legacy Dev Branch)
 > **Predict. Respond. Relay.**  
 > *An organizer-deployed edge intelligence and decentralized mesh network for crowd stampede prevention, incident dispatch, and offline safety telemetry.*
 
 [![Live Prototype](https://img.shields.io/badge/Production_App-festival--guardian.vercel.app-FF6600?style=for-the-badge&logo=vercel)](https://festival-guardian.vercel.app)
-[![Pitch Deck PDF](https://img.shields.io/badge/Pitch_Deck-PDF-red?style=for-the-badge&logo=adobe-acrobat-reader)](./Festival-Guardian-Pitch-Deck.pdf)
-[![Pitch Deck PPTX](https://img.shields.io/badge/Pitch_Deck-PPTX-orange?style=for-the-badge&logo=microsoft-powerpoint)](./Festival-Guardian-Pitch-Deck.pptx)
-[![Archive](https://img.shields.io/badge/Archive-festival--guardian--2-blue?style=for-the-badge)](./archive)
+[![Main Repo](https://img.shields.io/badge/Main_Repository-sujay2520%2Ffestival--guardian-cyan?style=for-the-badge&logo=github)](https://github.com/sujay2520/festival-guardian)
 [![Team](https://img.shields.io/badge/Team-Falling_Stars-amber?style=for-the-badge)](https://iqoo.reskilll.com/dashboard/iqoo-finale)
 
 ---
@@ -18,13 +29,13 @@ Exacerbating this, ultra-dense congregations inevitably cause local cellular bas
 
 Most conventional crowd safety apps operate on an unrealistic premise: expecting frightened attendees in a high-density surge to unlock smartphones, open an app, and report incidents. 
 
-**Festival Guardian** solves this from the organizer's operational perspective. It is an edge-deployed surveillance and decentralized communication framework: Guardian Nodes are stationed at critical chokepoints and operated by staff/volunteers or integrated directly with existing venue CCTV infrastructure. If cellular infrastructure collapses, safety alerts hop node-to-node across a local peer-to-peer mesh until reaching dispatch commanders.
+**Festival Guardian 2** solves this from the organizer's operational perspective. It is an edge-deployed surveillance and decentralized communication framework: Guardian Nodes are stationed at critical chokepoints and operated by staff/volunteers or integrated directly with existing venue CCTV infrastructure. If cellular infrastructure collapses, safety alerts hop node-to-node across a local peer-to-peer mesh until reaching dispatch commanders.
 
 ---
 
 ## 👥 Dual-Persona Architecture
 
-Festival Guardian is engineered around two distinct operational personas designed to bridge ground-level situational awareness with tactical command dispatch:
+Festival Guardian 2 is engineered around two distinct operational personas designed to bridge ground-level situational awareness with tactical command dispatch:
 
 ```mermaid
 flowchart TD
@@ -76,7 +87,7 @@ flowchart TD
 
 Large-scale venues (cricket stadiums, festival arenas, temple complexes) rarely require purchasing hundreds of dedicated mobile phones for monitoring. Instead, these facilities are already wired with dozens of high-mounted, pan-tilt-zoom (PTZ) IP surveillance cameras.
 
-Festival Guardian introduces a zero-hardware-cost ingestion framework that turns existing venue surveillance cameras into autonomous Guardian Nodes:
+Festival Guardian 2 introduces a zero-hardware-cost ingestion framework that turns existing venue surveillance cameras into autonomous Guardian Nodes:
 
 ```mermaid
 flowchart LR
@@ -126,7 +137,7 @@ flowchart LR
 
 ## 🧮 Mathematical Foundations & Crowd Risk Calibration
 
-Festival Guardian replaces arbitrary threshold guesses with models calibrated to **NFPA 101 Life Safety Code** and **Dr. John Fruin's Level of Service (LOS)** pedestrian dynamics:
+Festival Guardian 2 replaces arbitrary threshold guesses with models calibrated to **NFPA 101 Life Safety Code** and **Dr. John Fruin's Level of Service (LOS)** pedestrian dynamics:
 
 $$\text{Density} = \frac{\bar{N}_{\text{window}}}{\text{Monitored Area } (m^2)}$$
 
@@ -167,14 +178,14 @@ To maintain engineering honesty and transparency during hackathon evaluation:
 | **Vision AI Engine** | TensorFlow.js (`mobilenet_v2` COCO-SSD) on client WebGL GPU shaders | TensorFlow Lite / ONNX Runtime INT8 quantized, compiled for **Snapdragon NPU** execution |
 | **Mesh P2P Hop Protocol** | `BroadcastChannel` event bus with TTL decrement, seen-set deduplication, and synthetic peer discovery | Google Play Services **Nearby Connections API** (`P2P_CLUSTER`) over Wi-Fi Direct & BLE with physical multi-device hop |
 | **Alert Schema & Reliability** | Typed JSON packets with LRU cache deduplication & local audio synth sirens | Signed protobuf binary packets with cryptographic node verification & mesh storage-and-forward buffers |
-| **Deployment** | 24/7 Global Edge CDN on Vercel (`festival-guardian.vercel.app`) | Standalone APK installed on iQOO Android test hardware with background service daemons |
+| **Deployment** | 24/7 Global Edge CDN on Vercel (`festival-guardian-2.vercel.app`) | Standalone APK installed on iQOO Android test hardware with background service daemons |
 | **Verification Method** | Multi-tab local peer simulation & live mobile camera feed testing | Multi-device physical mesh testing in cellular-deadened Faraday/shielded environments |
 
 ---
 
 ## 🎮 Live Demo & Walkthrough
 
-Visit **[festival-guardian.vercel.app](https://festival-guardian.vercel.app)** on your smartphone or desktop:
+Visit **[festival-guardian-2.vercel.app](https://festival-guardian-2.vercel.app)** on your smartphone or desktop:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -197,7 +208,7 @@ Visit **[festival-guardian.vercel.app](https://festival-guardian.vercel.app)** o
    * 🟡 **Surge (65)**: Gate bottleneck triggering caution advisory.
    * 🔴 **Critical (92)**: High-density stampede risk automatically dispatching alerts to the mesh.
 4. **Multi-Tab Mesh Relay Test**:
-   * Open two browser windows at `https://festival-guardian.vercel.app`.
+   * Open two browser windows at `https://festival-guardian-2.vercel.app`.
    * On Window 1, navigate to **SOS** and hold the button for 0.8 seconds.
    * Window 2 instantly receives the alert across the mesh bus with audible siren chimes and hop telemetry.
 
@@ -206,7 +217,7 @@ Visit **[festival-guardian.vercel.app](https://festival-guardian.vercel.app)** o
 ## 🛠️ Project Structure
 
 ```
-Festival Guardian/
+Festival Guardian 2/
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx               # Tab orchestrator & responsive mobile/desktop shell
@@ -245,8 +256,8 @@ Festival Guardian/
 
 ```bash
 # Clone the repository
-git clone https://github.com/sujay2520/festival-guardian.git
-cd festival-guardian
+git clone https://github.com/sujay2520/festival-guardian-2.git
+cd festival-guardian-2
 
 # Install dependencies
 npm install
@@ -259,12 +270,10 @@ npm run dev
 
 ---
 
-## 👥 Team Falling Stars & Contributors
+## 👥 Team Falling Stars
 
-| Name | Role / Focus | GitHub Profile |
-| :--- | :--- | :--- |
-| **M Sujay** | Edge AI Vision, System Architecture & UI | [@sujay2520](https://github.com/sujay2520) |
-| **Poornachandra P M** | Decentralized Mesh Relay & Data Pipelines | [@humanoid-co](https://github.com/humanoid-co) |
-| **Dushyanth M** | Computer Vision Scorer & Android Telemetry | [@Dushyanthm07](https://github.com/Dushyanthm07) |
+* **Poornachandra P M**
+* **Dushyanth M**
+* **M Sujay**
 
-*Built with passion for the iQOO Hackathon 2026 Grand Finale.*
+*Built for the iQOO Hackathon 2026.*
