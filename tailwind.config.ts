@@ -22,6 +22,21 @@ const config: Config = {
         safe: "#3d9a72",
         surge: "#c4a35a",
         crit: "#d45b4a",
+        // Backward-compatible Guardian tokens mapped to dark minimalist palette
+        guardian: {
+          bg: "#09090b",
+          card: "#121216",
+          surface: "#161B22",
+          border: "#2a2a32",
+          accent: "#FF6600",
+          cyan: "#22D3EE",
+          green: "#3d9a72",
+          amber: "#c4a35a",
+          red: "#d45b4a",
+          text: "#ececef",
+          muted: "#8b8b96",
+          subtle: "#6a6a74",
+        },
       },
       fontFamily: {
         sans: ['IBM Plex Sans', 'ui-sans-serif', 'system-ui', 'sans-serif'],

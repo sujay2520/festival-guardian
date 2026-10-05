@@ -25,6 +25,7 @@ import {
   Megaphone
 } from 'lucide-react';
 import type { Alert, AlertType, Peer } from '@/types';
+import { audioEngine } from '@/lib/audio-engine';
 import CctvStreamPlayer, { CctvCameraFeed } from './CctvStreamPlayer';
 
 export interface OrganizerControlRoomProps {
@@ -136,11 +137,13 @@ export default function OrganizerControlRoom({
   };
 
   const handleDispatch = (alertId: string, nodeName: string) => {
+    audioEngine.play('ping', 0.25);
     onDispatchVolunteer?.(alertId);
     showToast(`✅ Dispatched Volunteer Marshal to ${nodeName}!`);
   };
 
   const handleBroadcast = () => {
+    audioEngine.play('sos', 0.3);
     const msg = broadcastMessage.trim() || 'Advisory: Gate 3 attendees, please redirect to East Concourse.';
     onBroadcastAdvisory?.(msg);
     showToast('📢 Mesh Advisory Broadcast Dispatched to All Units!');
@@ -149,6 +152,7 @@ export default function OrganizerControlRoom({
   };
 
   const handleViewFeed = (cameraId: string) => {
+    audioEngine.play('click', 0.2);
     setSelectedCameraId(cameraId);
     setSelectedTab('cctv');
     setTimeout(() => {

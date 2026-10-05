@@ -24,6 +24,7 @@ import { useAlerts } from '@/hooks/useAlerts';
 import { useMeshRelay } from '@/hooks/useMeshRelay';
 import { AlertFactory } from '@/lib/alert-factory';
 import { requestNotificationPermission } from '@/lib/delivery-bridge';
+import { audioEngine } from '@/lib/audio-engine';
 import { DemoScenario } from '@/types';
 
 type TabId = 'scanner' | 'dispatch' | 'relay' | 'sos' | 'ops';
@@ -160,40 +161,45 @@ export default function HomePage() {
       <OnboardingModal isOpen={isInfoOpen} onClose={() => setIsInfoOpen(false)} />
 
       {/* Desktop Sidebar Navigation */}
-      <aside className="hidden w-56 shrink-0 flex-col border-r border-border p-4 lg:flex bg-bg">
-        <div className="flex items-center gap-2.5">
-          <span className="flex size-9 items-center justify-center rounded-[10px] border border-border bg-surface-2 font-display text-xs font-bold tracking-wide text-accent">
-            FG
-          </span>
-          <div>
-            <p className="font-display text-sm font-semibold leading-none">Festival Guardian</p>
-            <p className="mt-1 text-[11px] text-muted">Predict. Respond. Relay.</p>
+      <aside className="hidden w-60 shrink-0 flex-col justify-between border-r border-border p-5 lg:flex bg-bg">
+        <div>
+          <div className="flex items-center gap-2.5">
+            <span className="flex size-9 items-center justify-center rounded-[10px] border border-border bg-surface-2 font-display text-xs font-bold tracking-wide text-accent">
+              FG
+            </span>
+            <div>
+              <p className="font-display text-sm font-semibold leading-none">Festival Guardian</p>
+              <p className="mt-1 text-[11px] text-muted">Predict. Respond. Relay.</p>
+            </div>
           </div>
+
+          <nav className="mt-8 flex flex-1 flex-col gap-1.5">
+            {TABS.map((t) => (
+              <button
+                key={t.id}
+                onClick={() => {
+                  audioEngine.play('click');
+                  setActiveTab(t.id);
+                }}
+                className={`flex h-11 items-center gap-3 rounded-[12px] px-3 text-sm font-medium transition-colors duration-150 ${
+                  activeTab === t.id
+                    ? 'bg-surface-2 text-fg shadow-sm border border-border'
+                    : 'text-muted hover:bg-surface hover:text-fg'
+                }`}
+              >
+                <t.icon className="size-4" strokeWidth={1.75} />
+                <span>{t.label}</span>
+                {t.id === 'dispatch' && alerts.length > 0 && (
+                  <span className="ml-auto rounded-full bg-crit px-1.5 py-0.2 text-[10px] text-fg font-bold">
+                    {alerts.length}
+                  </span>
+                )}
+              </button>
+            ))}
+          </nav>
         </div>
 
-        <nav className="mt-8 flex flex-1 flex-col gap-1">
-          {TABS.map((t) => (
-            <button
-              key={t.id}
-              onClick={() => setActiveTab(t.id)}
-              className={`flex h-11 items-center gap-3 rounded-[12px] px-3 text-sm font-medium transition-colors duration-150 ${
-                activeTab === t.id
-                  ? 'bg-surface-2 text-fg'
-                  : 'text-muted hover:bg-surface hover:text-fg'
-              }`}
-            >
-              <t.icon className="size-4" strokeWidth={1.75} />
-              <span>{t.label}</span>
-              {t.id === 'dispatch' && alerts.length > 0 && (
-                <span className="ml-auto rounded-full bg-crit px-1.5 py-0.2 text-[10px] text-fg font-bold">
-                  {alerts.length}
-                </span>
-              )}
-            </button>
-          ))}
-        </nav>
-
-        <p className="text-xs leading-relaxed text-subtle">
+        <p className="text-xs leading-relaxed text-subtle pt-6 border-t border-border/50">
           Guardian node at a gate — not an attendee app. Relay is a local simulation.
         </p>
       </aside>
@@ -211,7 +217,7 @@ export default function HomePage() {
           </span>
         </div>
 
-        <main className="min-h-0 flex-1 overflow-y-auto px-4 pb-24 pt-4 lg:px-6 lg:pb-8">
+        <main className="min-h-0 flex-1 overflow-y-auto px-4 pb-24 pt-20 lg:pt-6 lg:px-6 lg:pb-8">
           {activeTab === 'scanner' && (
             <CameraRiskScreen
               videoRef={videoRef}
@@ -270,11 +276,14 @@ export default function HomePage() {
       </div>
 
       {/* Fixed Bottom Navigation (Mobile Only) */}
-      <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto flex h-16 max-w-[480px] items-center justify-around border-t border-border bg-surface pb-[env(safe-area-inset-bottom)] lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto flex h-16 max-w-[480px] items-center justify-around border-t border-border bg-surface/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] lg:hidden">
         {TABS.map((t) => (
           <button
             key={t.id}
-            onClick={() => setActiveTab(t.id)}
+            onClick={() => {
+              audioEngine.play('click');
+              setActiveTab(t.id);
+            }}
             className={`flex min-w-11 flex-col items-center gap-0.5 text-[10px] font-medium transition-colors ${
               activeTab === t.id ? 'text-fg' : 'text-muted'
             }`}

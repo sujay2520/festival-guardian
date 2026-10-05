@@ -3,6 +3,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Camera, Square, Users, Video, RotateCcw, AlertTriangle } from 'lucide-react';
 import type { BoundingBox, RiskData, DemoScenario } from '@/types';
+import { audioEngine } from '@/lib/audio-engine';
 
 interface CameraRiskScreenProps {
   videoRef: React.RefObject<HTMLVideoElement | null>;
@@ -266,14 +267,21 @@ export default function CameraRiskScreen({
         </button>
         {onLoadSampleVideo && (
           <button
-            onClick={() => onLoadSampleVideo('/concert-crowd.webm')}
-            className={`flex h-11 items-center justify-center gap-2 rounded-[12px] text-sm font-medium transition-colors ${
+            onClick={() => {
+              audioEngine.play('click');
+              onLoadSampleVideo('/concert-crowd.webm');
+            }}
+            className={`flex h-11 items-center justify-center gap-2 rounded-[12px] text-sm font-semibold transition-all relative overflow-hidden active:scale-95 ${
               isActive && videoMode === 'sample' && currentSampleUrl === '/concert-crowd.webm'
-                ? 'border border-accent bg-surface-2 text-fg'
-                : 'border border-border bg-surface text-muted hover:text-fg'
+                ? 'border-2 border-amber-400 bg-amber-500/20 text-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.35)]'
+                : 'border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 hover:border-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.15)]'
             }`}
           >
-            <Video className="size-4" /> Demo Footage
+            <Video className="size-4 text-amber-400 animate-pulse" />
+            <span className="tracking-wide">Demo Footage</span>
+            <span className="rounded bg-amber-400 px-1.5 py-0.5 text-[9px] font-black text-black uppercase tracking-wider">
+              REAL AI
+            </span>
           </button>
         )}
         <button
