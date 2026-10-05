@@ -174,28 +174,41 @@ export default function HomePage() {
           </div>
 
           <nav className="mt-8 flex flex-1 flex-col gap-1.5">
-            {TABS.map((t) => (
-              <button
-                key={t.id}
-                onClick={() => {
-                  audioEngine.play('click');
-                  setActiveTab(t.id);
-                }}
-                className={`flex h-11 items-center gap-3 rounded-[12px] px-3 text-sm font-medium transition-colors duration-150 ${
-                  activeTab === t.id
-                    ? 'bg-surface-2 text-fg shadow-sm border border-border'
-                    : 'text-muted hover:bg-surface hover:text-fg'
-                }`}
-              >
-                <t.icon className="size-4" strokeWidth={1.75} />
-                <span>{t.label}</span>
-                {t.id === 'dispatch' && alerts.length > 0 && (
-                  <span className="ml-auto rounded-full bg-crit px-1.5 py-0.2 text-[10px] text-fg font-bold">
-                    {alerts.length}
-                  </span>
-                )}
-              </button>
-            ))}
+            {TABS.map((t) => {
+              const isOps = t.id === 'ops';
+              const isActive = activeTab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  onClick={() => {
+                    audioEngine.play('click');
+                    setActiveTab(t.id);
+                  }}
+                  className={`flex h-11 items-center gap-3 rounded-[12px] px-3 text-sm font-medium transition-all duration-150 ${
+                    isOps
+                      ? isActive
+                        ? 'bg-cyan-500/20 text-cyan-300 border-2 border-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.35)] font-semibold'
+                        : 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/40 hover:bg-cyan-500/20 hover:border-cyan-400 shadow-[0_0_8px_rgba(34,211,238,0.15)] font-semibold'
+                      : isActive
+                      ? 'bg-surface-2 text-fg shadow-sm border border-border'
+                      : 'text-muted hover:bg-surface hover:text-fg'
+                  }`}
+                >
+                  <t.icon className={`size-4 ${isOps ? 'text-cyan-400' : ''}`} strokeWidth={1.75} />
+                  <span>{t.label}</span>
+                  {isOps && (
+                    <span className="ml-auto rounded bg-cyan-500/30 border border-cyan-400/50 px-1.5 py-0.5 text-[9px] font-bold text-cyan-300 font-mono tracking-wider animate-pulse">
+                      CCTV
+                    </span>
+                  )}
+                  {t.id === 'dispatch' && alerts.length > 0 && (
+                    <span className="ml-auto rounded-full bg-crit px-1.5 py-0.2 text-[10px] text-fg font-bold">
+                      {alerts.length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </nav>
         </div>
 
@@ -277,28 +290,48 @@ export default function HomePage() {
 
       {/* Fixed Bottom Navigation (Mobile Only) */}
       <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto flex h-16 max-w-[480px] items-center justify-around border-t border-border bg-surface/95 backdrop-blur-md pb-[env(safe-area-inset-bottom)] lg:hidden">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            onClick={() => {
-              audioEngine.play('click');
-              setActiveTab(t.id);
-            }}
-            className={`flex min-w-11 flex-col items-center gap-0.5 text-[10px] font-medium transition-colors ${
-              activeTab === t.id ? 'text-fg' : 'text-muted'
-            }`}
-          >
-            <div className="relative">
-              <t.icon className="size-5" strokeWidth={1.75} />
-              {t.id === 'dispatch' && alerts.length > 0 && (
-                <span className="absolute -top-1 -right-2 rounded-full bg-crit px-1 text-[9px] text-fg font-bold">
-                  {alerts.length}
-                </span>
-              )}
-            </div>
-            <span>{t.label}</span>
-          </button>
-        ))}
+        {TABS.map((t) => {
+          const isOps = t.id === 'ops';
+          const isActive = activeTab === t.id;
+          return (
+            <button
+              key={t.id}
+              onClick={() => {
+                audioEngine.play('click');
+                setActiveTab(t.id);
+              }}
+              className={`flex min-w-11 flex-col items-center gap-0.5 text-[10px] font-medium transition-colors ${
+                isOps
+                  ? isActive
+                    ? 'text-cyan-300 font-bold'
+                    : 'text-cyan-400 font-semibold'
+                  : isActive
+                  ? 'text-fg'
+                  : 'text-muted'
+              }`}
+            >
+              <div className="relative">
+                <t.icon
+                  className={`size-5 ${
+                    isOps ? 'text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]' : ''
+                  }`}
+                  strokeWidth={1.75}
+                />
+                {isOps && (
+                  <span className="absolute -top-1 -right-3 rounded bg-cyan-500 px-1 py-0.2 text-[8px] font-black text-black uppercase tracking-wider animate-pulse">
+                    CCTV
+                  </span>
+                )}
+                {t.id === 'dispatch' && alerts.length > 0 && (
+                  <span className="absolute -top-1 -right-2 rounded-full bg-crit px-1 text-[9px] text-fg font-bold">
+                    {alerts.length}
+                  </span>
+                )}
+              </div>
+              <span className={isOps ? 'text-cyan-400 font-semibold' : ''}>{t.label}</span>
+            </button>
+          );
+        })}
       </nav>
     </div>
   );
