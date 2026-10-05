@@ -27,22 +27,50 @@ function generateDemoBoxes(count: number, width = 640, height = 480): BoundingBo
   return boxes;
 }
 
+const INITIAL_SURGE_BOXES: BoundingBox[] = [
+  { x: 140, y: 150, width: 62, height: 110, confidence: 0.91, label: 'person' },
+  { x: 220, y: 170, width: 58, height: 105, confidence: 0.88, label: 'person' },
+  { x: 310, y: 140, width: 65, height: 120, confidence: 0.94, label: 'person' },
+  { x: 420, y: 160, width: 60, height: 115, confidence: 0.86, label: 'person' },
+  { x: 170, y: 230, width: 70, height: 130, confidence: 0.92, label: 'person' },
+  { x: 280, y: 250, width: 72, height: 135, confidence: 0.95, label: 'person' },
+  { x: 380, y: 220, width: 68, height: 125, confidence: 0.89, label: 'person' },
+  { x: 90, y: 290, width: 75, height: 140, confidence: 0.93, label: 'person' },
+  { x: 210, y: 300, width: 80, height: 145, confidence: 0.97, label: 'person' },
+  { x: 330, y: 295, width: 78, height: 142, confidence: 0.91, label: 'person' },
+  { x: 440, y: 285, width: 76, height: 138, confidence: 0.87, label: 'person' },
+];
+
 export function useRiskScore(
   videoRef: React.RefObject<HTMLVideoElement | null>,
   isActive: boolean,
-  demoScenario: DemoScenario = 'off'
+  demoScenario: DemoScenario = 'surge'
 ) {
-  const [riskData, setRiskData] = useState<RiskData>({
-    score: 0,
-    personCount: 0,
-    density: 0,
-    flowRate: 0,
-    level: 'safe',
-    timestamp: Date.now(),
+  const [riskData, setRiskData] = useState<RiskData>(() => {
+    if (demoScenario === 'surge') {
+      return {
+        score: 65,
+        personCount: 28,
+        density: 1.12,
+        flowRate: 1.25,
+        level: 'warning',
+        timestamp: Date.now(),
+      };
+    }
+    return {
+      score: 0,
+      personCount: 0,
+      density: 0,
+      flowRate: 0,
+      level: 'safe',
+      timestamp: Date.now(),
+    };
   });
   const [isModelReady, setIsModelReady] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [detections, setDetections] = useState<BoundingBox[]>([]);
+  const [detections, setDetections] = useState<BoundingBox[]>(() => {
+    return demoScenario === 'surge' ? INITIAL_SURGE_BOXES : [];
+  });
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const initModel = useCallback(async () => {
@@ -105,31 +133,49 @@ export function useRiskScore(
     return () => clearInterval(simInterval);
   }, [demoScenario]);
 
-  // Real camera inference loop
+  // Real camera inference loop with sequential non-overlapping execution
   useEffect(() => {
     if (!isActive || !isModelReady || demoScenario !== 'off') return;
 
     const video = videoRef.current;
     if (!video) return;
 
-    intervalRef.current = setInterval(async () => {
-      if (video.readyState < 2) return;
+    let isCancelled = false;
+    let isProcessing = false;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-      try {
-        const boxes = await detectPersons(video);
-        setDetections(boxes);
-        pushFrameCount(boxes.length);
-        const risk = computeRisk();
-        setRiskData(risk);
-      } catch {
-        // Detection failed this frame, skip
+    const runInferenceCycle = async () => {
+      if (isCancelled) return;
+
+      if (!isProcessing && video.readyState >= 2 && !video.paused && !video.ended) {
+        isProcessing = true;
+        try {
+          const boxes = await detectPersons(video);
+          if (!isCancelled) {
+            setDetections(boxes);
+            pushFrameCount(boxes.length);
+            const risk = computeRisk();
+            setRiskData(risk);
+          }
+        } catch {
+          // Detection skipped this frame
+        } finally {
+          isProcessing = false;
+        }
       }
-    }, DETECTION_INTERVAL_MS);
+
+      if (!isCancelled) {
+        // 420ms cooldown AFTER frame finishes: prevents tensor queuing and mobile GPU thermal throttling
+        timeoutId = setTimeout(runInferenceCycle, 420);
+      }
+    };
+
+    runInferenceCycle();
 
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
+      isCancelled = true;
+      if (timeoutId) {
+        clearTimeout(timeoutId);
       }
     };
   }, [isActive, isModelReady, videoRef, demoScenario]);

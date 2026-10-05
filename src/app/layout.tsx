@@ -15,7 +15,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#0a0a0f",
+  themeColor: "#060609",
 };
 
 export default function RootLayout({
@@ -27,6 +27,16 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
       </head>
       <body className="bg-guardian-bg text-guardian-text antialiased">
         {children}

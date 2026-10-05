@@ -10,23 +10,44 @@ const config: Config = {
     extend: {
       colors: {
         guardian: {
-          bg: "#0a0a0f",
-          card: "#12121a",
-          border: "#1e1e2e",
-          accent: "#6366f1",
-          green: "#22c55e",
-          amber: "#f59e0b",
-          red: "#ef4444",
-          text: "#e2e8f0",
-          muted: "#64748b",
+          bg: "#060609",
+          card: "#0D1117",
+          surface: "#161B22",
+          border: "#21262D",
+          accent: "#FF6600",
+          cyan: "#22D3EE",
+          green: "#22C55E",
+          amber: "#F59E0B",
+          red: "#EF4444",
+          text: "#E6EDF3",
+          muted: "#7D8590",
+        },
+        iqoo: {
+          orange: "#FF6600",
+          black: "#060609",
         },
       },
       animation: {
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "spin-slow": "spin 8s linear infinite",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "scan-line": "scan-line 3s ease-in-out infinite",
+      },
+      keyframes: {
+        "glow-pulse": {
+          "0%, 100%": { opacity: "0.6" },
+          "50%": { opacity: "1" },
+        },
+        "scan-line": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" },
+        },
       },
       backdropBlur: {
         xs: "2px",
+      },
+      fontFamily: {
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
     },
   },

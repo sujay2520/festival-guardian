@@ -13,7 +13,7 @@ const INITIAL_ALERTS: Alert[] = [
     timestamp: Date.now() - 1000 * 60 * 4,
     message: 'Gate 3 ingress surged: 4.2 people/m² (Caution)',
     riskScore: 68,
-    senderName: 'iQOO-Node-Gate3',
+    senderName: 'Guardian-Node-Gate3',
     ttlHops: 4,
   },
   {

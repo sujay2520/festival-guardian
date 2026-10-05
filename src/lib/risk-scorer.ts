@@ -15,7 +15,7 @@ export function pushFrameCount(count: number): void {
   }
 }
 
-export function computeRisk(frameAreaM2: number = 25): RiskData {
+export function computeRisk(frameAreaM2: number = 8): RiskData {
   if (countBuffer.length === 0) {
     return {
       score: 0,
@@ -41,9 +41,17 @@ export function computeRisk(frameAreaM2: number = 25): RiskData {
     flowRate = changes.reduce((a, b) => a + b, 0) / changes.length;
   }
 
-  const densityScore = Math.min((density / MAX_SAFE_DENSITY) * 70, 70);
-  const flowScore = Math.min((flowRate / MAX_FLOW) * 30, 30);
-  const score = Math.round(Math.min(densityScore + flowScore, 100));
+  // Calibrated crowd risk following NFPA 101 and Fruin Level of Service standards
+  // At low density (<1.0 p/m²), normal pedestrian flow is safe and should not trigger false alarms.
+  const densityRatio = density / MAX_SAFE_DENSITY; // MAX_SAFE_DENSITY = 4.0
+  const baseDensityScore = Math.min(densityRatio * 80, 80);
+
+  // Flow turbulence is only dangerous when crowd density is elevated (>1.0 p/m²)
+  const flowFactor = Math.min(flowRate / MAX_FLOW, 1.0);
+  const densityGating = Math.max(0, Math.min((density - 1.0) / 2.5, 1.0));
+  const flowScore = flowFactor * 20 * densityGating;
+
+  const score = Math.round(Math.min(baseDensityScore + flowScore, 100));
 
   const level =
     score >= RISK_THRESHOLDS.danger

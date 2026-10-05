@@ -33,7 +33,7 @@ export default function VolunteerList({
             }`}
           />
           <span className="text-xs font-medium text-guardian-green">
-            {isRelayActive ? 'Active (Simulated Relay)' : 'Inactive'}
+            {isRelayActive ? 'Local Sim (same-device)' : 'Inactive'}
           </span>
         </div>
       </div>

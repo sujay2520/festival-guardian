@@ -12,8 +12,8 @@ const INITIAL_PEERS: Peer[] = [
     isVolunteer: true,
   },
   {
-    id: 'peer-iqoo-108',
-    name: 'iQOO-Node-108 (Ops)',
+    id: 'peer-node-108',
+    name: 'Guardian-Node-108 (Ops)',
     connectedAt: Date.now() - 1000 * 60 * 22,
     lastSeen: Date.now(),
     isVolunteer: false,
