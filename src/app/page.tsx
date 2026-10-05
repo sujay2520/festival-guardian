@@ -42,6 +42,17 @@ export default function HomePage() {
   const [demoScenario, setDemoScenario] = useState<DemoScenario>('surge');
   const [isInfoOpen, setIsInfoOpen] = useState(false);
 
+  // Sync tab with URL query parameter for presentations & deep linking
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get('tab') as TabId;
+      if (tabParam && TABS.some((t) => t.id === tabParam)) {
+        setActiveTab(tabParam);
+      }
+    }
+  }, []);
+
   const {
     videoRef,
     isActive: isCameraActive,
