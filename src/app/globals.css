@@ -2,189 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Syne:wght@500;600;700;800&display=swap');
 
-:root {
-  --bg-primary: #060609;
-  --bg-card: #0D1117;
-  --bg-surface: #161B22;
-  --border: #21262D;
-  --accent: #FF6600;
-  --cyan: #22D3EE;
-  --green: #22C55E;
-  --amber: #F59E0B;
-  --red: #EF4444;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-  background: var(--bg-primary);
-  color: #E6EDF3;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Hide scrollbar for mobile app feel */
-::-webkit-scrollbar {
-  display: none;
-}
-body {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Tactical glass panels - optimized for mobile GPU compositor */
-.tactical-glass {
-  background: rgba(13, 17, 23, 0.92);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass {
-  background: rgba(13, 17, 23, 0.88);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Risk meter arc */
-.risk-arc {
-  transition: stroke-dashoffset 0.5s ease-out, stroke 0.3s ease;
-}
-
-/* SOS pulse animation */
-@keyframes sos-pulse {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  50% {
-    box-shadow: 0 0 0 20px rgba(239, 68, 68, 0);
+  html, body {
+    min-height: 100%;
+    background: #09090b;
+    color: #ececef;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  button:not(:disabled), [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  h1, h2, h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
   }
 }
-.sos-pulse {
-  animation: sos-pulse 2s infinite;
-}
 
-/* Orange glow for iQOO branding */
-@keyframes orange-glow {
-  0%, 100% {
-    box-shadow: 0 0 8px rgba(255, 102, 0, 0.3), 0 0 24px rgba(255, 102, 0, 0.1);
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
   }
-  50% {
-    box-shadow: 0 0 16px rgba(255, 102, 0, 0.5), 0 0 40px rgba(255, 102, 0, 0.2);
-  }
-}
-.orange-glow {
-  animation: orange-glow 3s ease-in-out infinite;
-}
-
-/* Scanner beam effect */
-@keyframes scan-beam {
-  0% { top: 0; opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { top: 100%; opacity: 0; }
-}
-.scanner-beam {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #FF6600, transparent);
-  box-shadow: 0 0 15px 3px rgba(255, 102, 0, 0.3);
-  animation: scan-beam 3s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 10;
-}
-
-/* Tactical grid background */
-.tactical-grid {
-  background-image:
-    linear-gradient(rgba(255, 102, 0, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 102, 0, 0.03) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* Camera overlay gradient */
-.camera-overlay {
-  background: linear-gradient(
-    180deg,
-    rgba(6, 6, 9, 0.7) 0%,
-    rgba(6, 6, 9, 0) 25%,
-    rgba(6, 6, 9, 0) 65%,
-    rgba(6, 6, 9, 0.85) 100%
-  );
-}
-
-/* Shimmer loading */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,0.03) 50%,
-    rgba(255,255,255,0) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 1.5s infinite;
-}
-
-/* Alert slide-in */
-@keyframes slide-in-right {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-.alert-enter {
-  animation: slide-in-right 0.3s ease-out;
-}
-
-/* Bounding box overlay */
-.detection-box {
-  position: absolute;
-  border: 2px solid var(--cyan);
-  border-radius: 4px;
-  pointer-events: none;
-  transition: all 0.15s ease;
-}
-.detection-box.warning {
-  border-color: var(--amber);
-}
-.detection-box.danger {
-  border-color: var(--red);
-}
-
-/* Corner brackets for tactical scanner framing */
-.corner-bracket {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-}
-.corner-bracket.tl { top: 12px; left: 12px; border-top: 2px solid #FF6600; border-left: 2px solid #FF6600; }
-.corner-bracket.tr { top: 12px; right: 12px; border-top: 2px solid #FF6600; border-right: 2px solid #FF6600; }
-.corner-bracket.bl { bottom: 56px; left: 12px; border-bottom: 2px solid #FF6600; border-left: 2px solid #FF6600; }
-.corner-bracket.br { bottom: 56px; right: 12px; border-bottom: 2px solid #FF6600; border-right: 2px solid #FF6600; }
-
-/* Selection highlight for iQOO branding */
-::selection {
-  background: rgba(255, 102, 0, 0.3);
-  color: white;
 }

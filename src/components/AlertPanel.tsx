@@ -1,65 +1,56 @@
 'use client';
-import { motion, AnimatePresence } from 'framer-motion';
-import {
-  AlertTriangle,
-  ShieldAlert,
-  PackageX,
-  Users,
-  CheckCircle,
-  X,
-  Clock,
-  MapPin,
-} from 'lucide-react';
+
+import { ShieldAlert, Siren, Wallet, UserRound } from 'lucide-react';
 import { Alert, AlertType } from '@/types';
 
-interface AlertPanelProps {
+export interface AlertPanelProps {
   alerts: Alert[];
   onDismiss: (id: string) => void;
   onClear: () => void;
 }
 
-const alertConfig: Record<
-  AlertType,
-  { icon: React.ElementType; color: string; bg: string; label: string }
-> = {
+interface AlertConfig {
+  icon: typeof ShieldAlert;
+  color: string;
+  label: string;
+}
+
+const ALERT_CONFIG: Record<AlertType, AlertConfig> = {
   [AlertType.CROWD_RISK]: {
-    icon: AlertTriangle,
-    color: 'text-amber-400',
-    bg: 'bg-amber-500/10 border-amber-500/20',
+    icon: ShieldAlert,
+    color: 'text-surge',
     label: 'Crowd Risk',
   },
   [AlertType.SOS_HELP]: {
-    icon: ShieldAlert,
-    color: 'text-red-400',
-    bg: 'bg-red-500/10 border-red-500/20',
+    icon: Siren,
+    color: 'text-crit',
     label: 'SOS Emergency',
   },
   [AlertType.THEFT]: {
-    icon: PackageX,
-    color: 'text-orange-400',
-    bg: 'bg-orange-500/10 border-orange-500/20',
+    icon: Wallet,
+    color: 'text-surge',
     label: 'Theft Report',
   },
   [AlertType.VOLUNTEER_REQUEST]: {
-    icon: Users,
-    color: 'text-blue-400',
-    bg: 'bg-blue-500/10 border-blue-500/20',
-    label: 'Volunteer Needed',
+    icon: UserRound,
+    color: 'text-accent',
+    label: 'Volunteer Request',
   },
   [AlertType.VOLUNTEER_RESPONSE]: {
-    icon: CheckCircle,
-    color: 'text-green-400',
-    bg: 'bg-green-500/10 border-green-500/20',
-    label: 'Volunteer Responding',
+    icon: UserRound,
+    color: 'text-accent',
+    label: 'Volunteer Response',
   },
 };
 
-function timeAgo(ts: number): string {
-  const seconds = Math.floor((Date.now() - ts) / 1000);
+function formatTimeAgo(ts: number): string {
+  const seconds = Math.max(0, Math.floor((Date.now() - ts) / 1000));
   if (seconds < 60) return `${seconds}s ago`;
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}m ago`;
-  return `${Math.floor(minutes / 60)}h ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
 }
 
 export default function AlertPanel({
@@ -67,87 +58,94 @@ export default function AlertPanel({
   onDismiss,
   onClear,
 }: AlertPanelProps) {
-  if (alerts.length === 0) {
-    return (
-      <div className="glass rounded-2xl p-6 text-center">
-        <ShieldAlert className="w-10 h-10 text-guardian-border mx-auto mb-2" />
-        <p className="text-sm text-guardian-muted">No alerts yet</p>
-        <p className="text-xs text-guardian-muted/60 mt-1">
-          Alerts from your device and the mesh network will appear here
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-semibold text-guardian-muted uppercase tracking-wider">
-          Alerts ({alerts.length})
-        </h3>
-        <button
-          onClick={onClear}
-          className="text-xs text-guardian-muted hover:text-guardian-text transition-colors"
-        >
-          Clear all
-        </button>
+    <div className="w-full">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="font-display text-lg font-semibold text-fg">Alert feed</h2>
+          <p className="text-sm text-muted">Names and coordinates are demo telemetry.</p>
+        </div>
+        {alerts.length > 0 && (
+          <button
+            onClick={onClear}
+            className="text-xs text-muted hover:text-fg transition-colors pt-1"
+          >
+            Clear all
+          </button>
+        )}
       </div>
 
-      <AnimatePresence mode="popLayout">
-        {alerts.map((alert) => {
-          const config = alertConfig[alert.type];
-          const Icon = config.icon;
-          return (
-            <motion.div
-              key={alert.id}
-              layout
-              initial={{ opacity: 0, x: 50, scale: 0.95 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              exit={{ opacity: 0, x: -50, scale: 0.95 }}
-              className={`${config.bg} border rounded-xl p-3 flex items-start gap-3`}
-            >
-              <div className={`mt-0.5 ${config.color}`}>
-                <Icon className="w-5 h-5" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <span className={`text-sm font-medium ${config.color}`}>
-                    {config.label}
-                  </span>
-                  {alert.senderName && (
-                    <span className="text-xs text-guardian-muted">
-                      from {alert.senderName}
-                    </span>
-                  )}
-                </div>
-                {alert.message && (
-                  <p className="text-xs text-guardian-muted mt-0.5 truncate">
-                    {alert.message}
-                  </p>
-                )}
-                <div className="flex items-center gap-3 mt-1">
-                  <span className="flex items-center gap-1 text-[10px] text-guardian-muted/70">
-                    <Clock className="w-3 h-3" />
-                    {timeAgo(alert.timestamp)}
-                  </span>
-                  {alert.lat !== 0 && (
-                    <span className="flex items-center gap-1 text-[10px] text-guardian-muted/70">
-                      <MapPin className="w-3 h-3" />
-                      {alert.lat.toFixed(4)}, {alert.lng.toFixed(4)}
-                    </span>
-                  )}
-                </div>
-              </div>
-              <button
-                onClick={() => onDismiss(alert.id)}
-                className="text-guardian-muted/50 hover:text-guardian-text transition-colors p-1"
+      {alerts.length === 0 ? (
+        <div className="mt-4 rounded-[20px] border border-border bg-surface px-5 py-10 text-center">
+          <p className="text-sm font-medium text-fg">No alerts yet</p>
+          <p className="mt-1 text-xs text-muted">
+            Run the Live demo to simulate incoming alerts and crowd telemetry.
+          </p>
+        </div>
+      ) : (
+        <div className="mt-4 space-y-2">
+          {alerts.map((alert) => {
+            const config = ALERT_CONFIG[alert.type] || {
+              icon: ShieldAlert,
+              color: 'text-surge',
+              label: alert.type || 'Alert',
+            };
+            const Icon = config.icon;
+            const details =
+              alert.message ||
+              (alert.senderName ? `Reported by ${alert.senderName}` : 'Incident reported');
+
+            return (
+              <div
+                key={alert.id}
+                className="flex gap-3 rounded-[16px] border border-border bg-surface p-3"
               >
-                <X className="w-4 h-4" />
-              </button>
-            </motion.div>
-          );
-        })}
-      </AnimatePresence>
+                <div className="size-10 rounded-[12px] bg-surface-2 flex items-center justify-center shrink-0">
+                  <Icon className={`size-5 ${config.color}`} />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="text-sm font-medium text-fg">
+                      {config.label}
+                    </span>
+                    <button
+                      onClick={() => onDismiss(alert.id)}
+                      className="text-xs text-subtle hover:text-fg transition-colors"
+                      aria-label="Dismiss alert"
+                    >
+                      Dismiss
+                    </button>
+                  </div>
+
+                  <p className="text-xs text-muted mt-0.5 truncate">
+                    {details}
+                    {alert.senderName && !alert.message?.includes(alert.senderName)
+                      ? ` · ${alert.senderName}`
+                      : ''}
+                  </p>
+
+                  <div className="text-xs text-subtle mt-1 font-mono flex items-center gap-1.5 flex-wrap">
+                    <span>
+                      {alert.ttlHops ?? 1} {alert.ttlHops === 1 ? 'hop' : 'hops'}
+                    </span>
+                    <span>·</span>
+                    <span>{formatTimeAgo(alert.timestamp)}</span>
+                    {alert.lat !== 0 && alert.lng !== 0 && (
+                      <>
+                        <span>·</span>
+                        <span>
+                          {alert.lat.toFixed(4)}, {alert.lng.toFixed(4)}
+                        </span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,93 +1,138 @@
 'use client';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Radio, UserCheck, Clock } from 'lucide-react';
-import { Peer } from '@/types';
+
+import { useEffect, useRef, useState } from 'react';
+import { Peer, RELAY_CHANNEL_NAME } from '@/types';
 
 interface VolunteerListProps {
   peers: Peer[];
   isRelayActive: boolean;
 }
 
-function timeSince(ts: number): string {
-  const seconds = Math.floor((Date.now() - ts) / 1000);
-  if (seconds < 60) return 'just now';
-  const minutes = Math.floor(seconds / 60);
-  return `${minutes}m ago`;
+function getPeerRole(peer: Peer): string {
+  if (peer.name.includes('(Ops)')) return 'Operations Coordinator';
+  if (peer.name.includes('Medic')) return 'Medical Responder';
+  if (peer.isVolunteer) return 'Volunteer Responder';
+  return 'Mesh Relay Node';
 }
 
 export default function VolunteerList({
   peers,
   isRelayActive,
 }: VolunteerListProps) {
+  const terminalRef = useRef<HTMLDivElement>(null);
+  const [eventLogs, setEventLogs] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (typeof BroadcastChannel === 'undefined') return;
+
+    let alertChannel: BroadcastChannel | null = null;
+    let peerChannel: BroadcastChannel | null = null;
+
+    try {
+      alertChannel = new BroadcastChannel(RELAY_CHANNEL_NAME);
+      alertChannel.onmessage = (event) => {
+        const type = event.data?.type || 'PACKET';
+        const sender = event.data?.senderId || 'peer-unknown';
+        setEventLogs((prev) => [
+          ...prev.slice(-20),
+          `Relay packet received: [${type}] from ${sender}`,
+        ]);
+      };
+
+      peerChannel = new BroadcastChannel(`${RELAY_CHANNEL_NAME}-peers`);
+      peerChannel.onmessage = (event) => {
+        const { type, peer } = event.data || {};
+        if (type === 'join' && peer?.name) {
+          setEventLogs((prev) => [
+            ...prev.slice(-20),
+            `Peer joined mesh: ${peer.name} (${peer.id})`,
+          ]);
+        } else if (type === 'leave' && peer?.id) {
+          setEventLogs((prev) => [
+            ...prev.slice(-20),
+            `Peer departed mesh: ${peer.id}`,
+          ]);
+        }
+      };
+    } catch {
+      // BroadcastChannel unsupported or blocked
+    }
+
+    return () => {
+      alertChannel?.close();
+      peerChannel?.close();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (terminalRef.current) {
+      terminalRef.current.scrollTop = terminalRef.current.scrollHeight;
+    }
+  }, [peers, eventLogs, isRelayActive]);
+
   return (
-    <div className="glass rounded-2xl p-4">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Users className="w-4 h-4 text-guardian-accent" />
-          <h3 className="text-sm font-semibold">Mesh Network</h3>
-        </div>
-        <div className="flex items-center gap-1.5">
-          <div
-            className={`w-2 h-2 rounded-full ${
-              isRelayActive ? 'bg-guardian-green animate-pulse' : 'bg-guardian-muted'
-            }`}
-          />
-          <span className="text-xs font-medium text-guardian-green">
-            {isRelayActive ? 'Local Sim (same-device)' : 'Inactive'}
-          </span>
-        </div>
+    <div className="w-full">
+      <div>
+        <h2 className="font-display text-lg font-semibold text-fg">Mesh relay</h2>
+        <p className="mt-1 text-sm text-muted">
+          Local simulation of phone-to-phone hops. Production maps to Nearby Connections.
+        </p>
       </div>
 
-      {peers.length === 0 ? (
-        <div className="text-center py-6">
-          <Radio className="w-8 h-8 text-guardian-border mx-auto mb-2 animate-pulse" />
-          <p className="text-xs text-guardian-muted">
-            Scanning for nearby guardians...
-          </p>
-          <p className="text-[10px] text-guardian-muted/60 mt-1">
-            Open this app in another tab to connect
-          </p>
-        </div>
-      ) : (
-        <div className="space-y-2">
-          <AnimatePresence mode="popLayout">
-            {peers.map((peer) => (
-              <motion.div
+      <div className="mt-4 space-y-2">
+        {peers.length === 0 ? (
+          <div className="flex items-center justify-center rounded-[16px] border border-border bg-surface px-3 py-4 text-xs text-muted">
+            No peers in range. Open another tab or window to simulate a hop.
+          </div>
+        ) : (
+          peers.map((peer) => {
+            const isRecent = Boolean(
+              isRelayActive &&
+                (peer.lastSeen ? Date.now() - peer.lastSeen < 180000 : true)
+            );
+            return (
+              <div
                 key={peer.id}
-                layout
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="flex items-center gap-3 bg-guardian-bg/50 rounded-lg px-3 py-2"
+                className="flex items-center gap-3 rounded-[16px] border border-border bg-surface px-3 py-3"
               >
-                <div className="w-8 h-8 rounded-full bg-guardian-accent/20 flex items-center justify-center">
-                  <UserCheck className="w-4 h-4 text-guardian-accent" />
-                </div>
-                <div className="flex-1">
-                  <p className="text-sm font-medium">{peer.name}</p>
-                  <div className="flex items-center gap-1 mt-0.5">
-                    <Clock className="w-3 h-3 text-guardian-muted/60" />
-                    <span className="text-[10px] text-guardian-muted/60">
-                      Connected {timeSince(peer.connectedAt)}
-                    </span>
+                <span
+                  className={`size-2.5 rounded-full shrink-0 ${
+                    isRecent ? 'bg-safe' : 'bg-subtle'
+                  }`}
+                />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-fg truncate">
+                    {peer.name}
+                  </div>
+                  <div className="text-xs text-muted truncate">
+                    {getPeerRole(peer)}
                   </div>
                 </div>
-                {peer.isVolunteer && (
-                  <span className="text-[10px] bg-guardian-green/20 text-guardian-green px-2 py-0.5 rounded-full">
-                    Volunteer
-                  </span>
-                )}
-              </motion.div>
-            ))}
-          </AnimatePresence>
+              </div>
+            );
+          })
+        )}
+      </div>
 
-          <div className="text-center pt-2">
-            <p className="text-[10px] text-guardian-muted/50">
-              {peers.length} guardian{peers.length !== 1 ? 's' : ''} connected
-            </p>
+      <div
+        ref={terminalRef}
+        className="mt-4 max-h-48 overflow-y-auto rounded-[16px] border border-border bg-surface p-3 font-mono text-[11px] leading-5 text-muted"
+      >
+        <div>Relay channel: festival-guardian-relay</div>
+        <div>BroadcastChannel active: {String(isRelayActive)}</div>
+        <div>Transport: phone-to-phone hops (Nearby Connections simulation)</div>
+        {peers.map((peer) => (
+          <div key={peer.id}>
+            Peer connected: {peer.name} ({peer.id})
           </div>
-        </div>
-      )}
+        ))}
+        {eventLogs.map((log, index) => (
+          <div key={index}>{log}</div>
+        ))}
+        {peers.length === 0 && (
+          <div>Listening for peer broadcasts on frequency...</div>
+        )}
+      </div>
     </div>
   );
 }
